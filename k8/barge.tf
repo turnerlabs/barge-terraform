@@ -133,7 +133,6 @@ resource "aws_sns_topic_subscription" "barge-elb-update" {
     endpoint  = "${aws_lambda_function.lambda-elb-update.arn}"
 }
 
-/* Broken for some reason!??!
 resource "aws_autoscaling_notification" "elb_asg_update_notification" {
   group_names = [
     "${aws_autoscaling_group.barge.name}"
@@ -141,6 +140,5 @@ resource "aws_autoscaling_notification" "elb_asg_update_notification" {
   notifications = [
     "autoscaling:EC2_INSTANCE_LAUNCH"
   ]
-  topic_arn = "${aws_lambda_function.lambda-elb-update.arn}"
+  topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
 }
-*/
