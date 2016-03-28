@@ -120,7 +120,7 @@ resource "aws_lambda_function" "lambda-elb-update" {
     description = "Update ELB-s assocated with services on a barge when the ASG scales in/out"
     memory_size = "128"
     runtime = "nodejs"
-    timeout = "5"
+    timeout = "300"
 }
 
 resource "aws_sns_topic" "barge-elb-update" {
