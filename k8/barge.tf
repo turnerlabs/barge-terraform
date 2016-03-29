@@ -80,7 +80,7 @@ resource "aws_sns_topic" "barge-notifications" {
   name = "barge-notifications-terraform"
 }
 
-/*
+/* TODO:
 Email is not supported, but documenting here that we do like emails sent for ASG updates
 resource "aws_sns_topic_subscription" "barge-notifications" {
     topic_arn = "${aws_sns_topic.barge-notifications-terraform.arn}"
@@ -89,7 +89,7 @@ resource "aws_sns_topic_subscription" "barge-notifications" {
 }
 */
 
-/* Lambda function does not handle duplicate definitions well, needs to be broken out into a one time run...
+/* TODO: Lambda function does not handle duplicate definitions well, needs to be broken out into a one time run...
 resource "aws_iam_role" "iam_for_lambda" {
     name = "lambda_asg_barge_elb_update-terraform"
     assume_role_policy = <<EOF
@@ -111,12 +111,11 @@ EOF
 */
 
 resource "aws_lambda_function" "lambda-elb-update" {
-#   TODO: s3 location
-    filename = "${path.module}/AsgBargeElbUpdate-4102bac4-72ba-4d90-8741-69cac75014c8.zip"
-    function_name = "AsgBargeElbUpdate-terraform"
-#    role = "${aws_iam_role.iam_for_lambda.arn}"
-    role = "arn:aws:iam::531150666374:role/lambda_asg_barge_elb_update-terraform"
-    handler = "asg-barge-elb-update.handler"
+    s3_bucket = "${var.elb_lambda_s3_bucket}"
+    s3_key = "${var.elb_lambda_s3_key}"
+    function_name = "${var.elb_lambda_function_name}"
+    role = "${var.elb_lambda_role}"
+    handler = "${var.elb_lambda_handler}"
     description = "Update ELB-s assocated with services on a barge when the ASG scales in/out"
     memory_size = "128"
     runtime = "nodejs"
