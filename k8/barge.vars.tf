@@ -28,3 +28,8 @@ variable "termination_policy" {
 variable "asg_max_size" {}
 variable "asg_min_size" {}
 variable "asg_desired_capacity" {}
+variable "elb_lambda_s3_bucket" {}
+variable "elb_lambda_s3_key" {}
+variable "elb_lambda_function_name" {}
+variable "elb_lambda_role" {}
+variable "elb_lambda_handler" {}
