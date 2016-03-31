@@ -141,3 +141,9 @@ resource "aws_autoscaling_notification" "elb_asg_update_notification" {
   ]
   topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
 }
+
+resource "aws_iam_server_certificate" "dummy-cert" {
+  name = "dummy-cert"
+  certificate_body = "${file("${path.module}/dummy-cert.crt")}"
+  private_key = "${file("${path.module}/dummy-cert.key")}"
+}
