@@ -89,27 +89,6 @@ resource "aws_sns_topic_subscription" "barge-notifications" {
 }
 */
 
-/* TODO: Lambda function does not handle duplicate definitions well, needs to be broken out into a one time run...
-resource "aws_iam_role" "iam_for_lambda" {
-    name = "lambda_asg_barge_elb_update-terraform"
-    assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-*/
-
 resource "aws_lambda_function" "lambda-elb-update" {
     s3_bucket = "${var.elb_lambda_s3_bucket}"
     s3_key = "${var.elb_lambda_s3_key}"
@@ -141,11 +120,3 @@ resource "aws_autoscaling_notification" "elb_asg_update_notification" {
   ]
   topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
 }
-
-/* Another resource like IAM role/lambda function that needs to be run only once per account...
-resource "aws_iam_server_certificate" "dummy-cert" {
-  name = "dummy-cert"
-  certificate_body = "${file("${path.module}/dummy-cert.crt")}"
-  private_key = "${file("${path.module}/dummy-cert.key")}"
-}
-*/
