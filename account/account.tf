@@ -32,6 +32,7 @@ resource "aws_iam_server_certificate" "dummy-cert" {
 resource "aws_security_group" "harbor-default" {
   name = "harbor-default"
   description = "Allow all inbound/outbound traffic"
+  vpc_id = "${var.vpc_id}"
 
   ingress {
       from_port = 0
