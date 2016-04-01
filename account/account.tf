@@ -28,3 +28,26 @@ resource "aws_iam_server_certificate" "dummy-cert" {
   certificate_body = "${file("${path.module}/dummy-cert.crt")}"
   private_key = "${file("${path.module}/dummy-cert.key")}"
 }
+
+resource "aws_security_group" "harbor-default" {
+  name = "harbor-default"
+  description = "Allow all inbound/outbound traffic"
+
+  ingress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    Name = "argo-sg"
+  }
+}
