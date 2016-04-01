@@ -52,3 +52,29 @@ resource "aws_security_group" "harbor-default" {
     Name = "argo-sg"
   }
 }
+
+resource "aws_iam_user" "deployit-trigger" {
+    name = "deployit-trigger-svc"
+}
+
+resource "aws_iam_user_policy" "deployit-trigger" {
+    name = "deployit-trigger-svc"
+    user = "${aws_iam_user.deployit-trigger.name}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "ec2:Describe*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
