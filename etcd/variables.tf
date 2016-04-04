@@ -21,5 +21,5 @@ variable "aws_region" {
 variable "aws_customprofile" {}
 variable "key_name" {}
 variable "security_groups" {}
-variable "availibity_zone" {}
+variable "availability_zone" {}
 variable "subnet_id" {}
