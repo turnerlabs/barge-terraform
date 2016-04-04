@@ -5,7 +5,6 @@ variable "conftag" {
 variable "barge_customer" {
   default = "mss"
 }
-variable "barge_type" {}
 variable "environment" {}
 variable "ami" {
   default = "ami-864d84ee"
