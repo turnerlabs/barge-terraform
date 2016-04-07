@@ -76,11 +76,11 @@ resource "aws_autoscaling_group" "barge" {
   }
 }
 
+/* TODO:
 resource "aws_sns_topic" "barge-notifications" {
   name = "barge-notifications-terraform"
 }
 
-/* TODO:
 Email is not supported, but documenting here that we do like emails sent for ASG updates
 resource "aws_sns_topic_subscription" "barge-notifications" {
     topic_arn = "${aws_sns_topic.barge-notifications-terraform.arn}"
