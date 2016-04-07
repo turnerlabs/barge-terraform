@@ -102,7 +102,7 @@ resource "aws_lambda_function" "lambda-elb-update" {
 }
 
 resource "aws_sns_topic" "barge-elb-update" {
-  name = "barge-elb-update-terraform"
+  name = "${var.customer}-${var.environment}-barge-elb-update-terraform"
 }
 
 resource "aws_sns_topic_subscription" "barge-elb-update" {
