@@ -92,7 +92,7 @@ resource "aws_sns_topic_subscription" "barge-notifications" {
 resource "aws_lambda_function" "lambda-elb-update" {
     s3_bucket = "${var.elb_lambda_s3_bucket}"
     s3_key = "${var.elb_lambda_s3_key}"
-    function_name = "${var.elb_lambda_function_name}"
+    function_name = "${var.customer}-${var.environment}-${var.elb_lambda_function_name}"
     role = "${var.elb_lambda_role}"
     handler = "${var.elb_lambda_handler}"
     description = "Update ELB-s assocated with services on a barge when the ASG scales in/out"
