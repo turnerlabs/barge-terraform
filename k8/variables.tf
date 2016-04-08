@@ -6,7 +6,9 @@ variable "real_customer" {
   default = "none"
 }
 variable "products" {}
-variable "disk_type" {}
+variable "disk_type" {
+  default = "none"
+}
 variable "barge_type" {}
 variable "environment" {}
 variable "ami" {
