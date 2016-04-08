@@ -11,9 +11,6 @@ variable "ami" {
 }
 variable "instance_type" {}
 variable "package_size" {}
-variable "bootstrap_file" {
-  default = "bootstrap.tpl"
-}
 variable "aws_region" {
   default = "us-east-1"
 }
