@@ -9,7 +9,8 @@ module "bootstrap" {
   products = "${var.products}"
   conftag = "${var.conftag}"
   customer = "${var.customer}"
-  barge_type = "${var.barge_type}"
+  real_customer = "${var.real_customer}"
+  disk_type = "${var.barge_type}"
   package_size = "${var.package_size}"
 }
 
