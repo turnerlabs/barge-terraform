@@ -6,6 +6,7 @@ variable "real_customer" {
   default = "mss"
 }
 variable "environment" {}
+variable "products" {}
 variable "ami" {
   default = "ami-864d84ee"
 }
