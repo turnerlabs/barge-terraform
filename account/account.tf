@@ -1,0 +1,80 @@
+# Configure the AWS Provider
+provider "aws" {
+  profile = "${var.aws_customprofile}"
+  region = "${var.aws_region}"
+}
+
+resource "aws_iam_role" "iam_for_lambda" {
+    name = "lambda_asg_barge_elb_update-terraform"
+    assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_server_certificate" "dummy-cert" {
+  name = "dummy-cert"
+  certificate_body = "${file("${path.module}/dummy-cert.crt")}"
+  private_key = "${file("${path.module}/dummy-cert.key")}"
+}
+
+resource "aws_security_group" "harbor-default" {
+  name = "harbor-default"
+  description = "Allow all inbound/outbound traffic"
+  vpc_id = "${var.vpc_id}"
+
+  ingress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags {
+    Name = "argo-sg"
+  }
+}
+
+resource "aws_iam_user" "deployit-trigger" {
+    name = "deployit-trigger-svc"
+}
+
+resource "aws_iam_user_policy" "deployit-trigger" {
+    name = "deployit-trigger-svc"
+    user = "${aws_iam_user.deployit-trigger.name}"
+    policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "ec2:Describe*",
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
