@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "bootstrap" {
-  source = "git::ssh://git@bitbucket.org/vgtf/argo-bootstrap-terraform.git?ref=initial-release"
+  source = "git::ssh://git@bitbucket.org/vgtf/argo-bootstrap-terraform.git?ref=v0.1.0"
   products = "${var.products}"
   conftag = "${var.conftag}"
   customer = "${var.customer}"
