@@ -2,7 +2,7 @@ variable "customer" {}
 variable "conftag" {
   default = "PROD"
 }
-variable "barge_customer" {
+variable "real_customer" {
   default = "mss"
 }
 variable "environment" {}

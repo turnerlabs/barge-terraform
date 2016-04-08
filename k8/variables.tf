@@ -2,10 +2,11 @@ variable "customer" {}
 variable "conftag" {
   default = "PROD"
 }
-variable "barge_customer" {
-  default = "mss"
+variable "real_customer" {
+  default = "none"
 }
-variable "barge_type" {}
+variable "products" {}
+variable "disk_type" {}
 variable "environment" {}
 variable "ami" {
   default = "ami-864d84ee"
