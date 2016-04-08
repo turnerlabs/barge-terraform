@@ -4,15 +4,13 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-resource "template_file" "bootstrap" {
-  template = "${file("${path.module}/bootstrap.tpl")}"
-  vars {
-    customer = "${var.customer}"
-    environment = "${var.environment}"
-    conftag = "${var.conftag}"
-    barge_customer = "${var.barge_customer}"
-    package_size = "${var.package_size}"
-  }
+module "bootstrap" {
+  source = "git::ssh://git@bitbucket.org/vgtf/argo-bootstrap-terraform.git?ref=initial-release"
+  products = "${var.products}"
+  conftag = "${var.conftag}"
+  customer = "${var.customer}"
+  barge_type = "${var.barge_type}"
+  package_size = "${var.package_size}"
 }
 
 resource "aws_instance" "etcd" {
@@ -21,7 +19,7 @@ resource "aws_instance" "etcd" {
     key_name = "${var.key_name}"
     availability_zone = "${var.availability_zone}"
     subnet_id = "${var.subnet_id}"
-    user_data = "${template_file.bootstrap.rendered}"
+    user_data = "${module.bootstrap.user_data}"
     security_groups = ["${split(",", var.security_groups)}"]
     tags {
         customer = "${var.customer}"

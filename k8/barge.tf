@@ -4,16 +4,13 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-resource "template_file" "bootstrap" {
-  template = "${file("${path.module}/bootstrap.tpl")}"
-  vars {
-    customer = "${var.customer}"
-    environment = "${var.environment}"
-    conftag = "${var.conftag}"
-    barge_customer = "${var.barge_customer}"
-    barge_type = "${var.barge_type}"
-    package_size = "${var.package_size}"
-  }
+module "bootstrap" {
+  source = "git::ssh://git@bitbucket.org/vgtf/argo-bootstrap-terraform.git?ref=initial-release"
+  products = "${var.products}"
+  conftag = "${var.conftag}"
+  customer = "${var.customer}"
+  barge_type = "${var.barge_type}"
+  package_size = "${var.package_size}"
 }
 
 resource "aws_launch_configuration" "barge" {
@@ -21,7 +18,7 @@ resource "aws_launch_configuration" "barge" {
   image_id = "${var.ami}"
   instance_type = "${var.instance_type}" 
   security_groups = ["${split(",", var.security_groups)}"]
-  user_data = "${template_file.bootstrap.rendered}"
+  user_data = "${module.bootstrap.user_data}"
   enable_monitoring = false
   lifecycle {
     create_before_destroy = true
