@@ -10,7 +10,7 @@ module "bootstrap" {
   conftag = "${var.conftag}"
   customer = "${var.customer}"
   real_customer = "${var.real_customer}"
-  disk_type = "${var.barge_type}"
+  disk_type = "${var.disk_type}"
   package_size = "${var.package_size}"
 }
 
