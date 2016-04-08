@@ -7,6 +7,7 @@ variable "real_customer" {
 }
 variable "products" {}
 variable "disk_type" {}
+variable "barge_type" {}
 variable "environment" {}
 variable "ami" {
   default = "ami-864d84ee"
