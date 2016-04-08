@@ -2,18 +2,16 @@ variable "customer" {}
 variable "conftag" {
   default = "PROD"
 }
-variable "barge_customer" {
+variable "real_customer" {
   default = "mss"
 }
 variable "environment" {}
+variable "products" {}
 variable "ami" {
   default = "ami-864d84ee"
 }
 variable "instance_type" {}
 variable "package_size" {}
-variable "bootstrap_file" {
-  default = "bootstrap.tpl"
-}
 variable "aws_region" {
   default = "us-east-1"
 }
