@@ -114,7 +114,8 @@ resource "aws_autoscaling_notification" "elb_asg_update_notification" {
     "${aws_autoscaling_group.barge.name}"
   ]
   notifications = [
-    "autoscaling:EC2_INSTANCE_LAUNCH"
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE"
   ]
   topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
 }
