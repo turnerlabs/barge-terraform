@@ -4,6 +4,50 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
+resource "aws_iam_role_policy" "iam_for_lambda_elb_full_access" {
+  name = "iam_for_lambda_elb_full_access"
+  role = "${aws_iam_role.iam_for_lambda.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "cloudwatch:*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "autoscaling:*",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "iam_for_lambda_cloudwatch_logs_full_access" {
+  name = "iam_for_lambda_cloudwatch_logs_full_access"
+  role = "${aws_iam_role.iam_for_lambda.id}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [ "logs:*" ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role" "iam_for_lambda" {
     name = "lambda_asg_barge_elb_update-terraform"
     assume_role_policy = <<EOF
@@ -17,7 +61,8 @@ resource "aws_iam_role" "iam_for_lambda" {
       },
       "Effect": "Allow",
       "Sid": ""
-    }
+    },
+    
   ]
 }
 EOF
