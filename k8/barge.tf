@@ -87,18 +87,6 @@ resource "aws_sns_topic_subscription" "barge-notifications" {
 }
 */
 
-resource "aws_lambda_function" "lambda-elb-update" {
-    s3_bucket = "${var.elb_lambda_s3_bucket}"
-    s3_key = "${var.elb_lambda_s3_key}"
-    function_name = "${var.customer}-${var.environment}-${var.elb_lambda_function_name}"
-    role = "${var.elb_lambda_role}"
-    handler = "${var.elb_lambda_handler}"
-    description = "Update ELB-s assocated with services on a barge when the ASG scales in/out"
-    memory_size = "128"
-    runtime = "nodejs"
-    timeout = "300"
-}
-
 resource "aws_sns_topic" "barge-elb-update" {
   name = "${var.customer}-${var.environment}-barge-elb-update-terraform"
 }
@@ -106,7 +94,7 @@ resource "aws_sns_topic" "barge-elb-update" {
 resource "aws_sns_topic_subscription" "barge-elb-update" {
     topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
     protocol  = "lambda"
-    endpoint  = "${aws_lambda_function.lambda-elb-update.arn}"
+    endpoint  = "${var.elb_lambda_update_arn}"
 }
 
 resource "aws_autoscaling_notification" "elb_asg_update_notification" {
@@ -114,7 +102,8 @@ resource "aws_autoscaling_notification" "elb_asg_update_notification" {
     "${aws_autoscaling_group.barge.name}"
   ]
   notifications = [
-    "autoscaling:EC2_INSTANCE_LAUNCH"
+    "autoscaling:EC2_INSTANCE_LAUNCH",
+    "autoscaling:EC2_INSTANCE_TERMINATE"
   ]
   topic_arn = "${aws_sns_topic.barge-elb-update.arn}"
 }
