@@ -20,7 +20,7 @@ resource "aws_instance" "etcd" {
     availability_zone = "${var.availability_zone}"
     subnet_id = "${var.subnet_id}"
     user_data = "${module.bootstrap.user_data}"
-    vpc_security_group_ids = ["${split(",", var.security_groups)}"]
+    vpc_security_group_ids = ["${split(",", var.security_group)}"]
     tags {
         customer = "${var.customer}"
         environment = "${var.environment}"
