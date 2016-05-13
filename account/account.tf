@@ -129,7 +129,18 @@ resource "aws_iam_user_policy" "deployit-trigger" {
       "Effect": "Allow",
       "Action": "elasticloadbalancing:*",
       "Resource": "*"
-    }
+    },
+    {
+       "Action": [
+           "iam:DeleteServerCertificate",
+           "iam:GetServerCertificate",
+           "iam:ListServerCertificates",
+           "iam:UpdateServerCertificate",
+           "iam:UploadServerCertificate"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+     }
   ]
 }
 EOF
