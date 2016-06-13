@@ -12,6 +12,8 @@ module "bootstrap" {
   real_customer = "${var.real_customer}"
   disk_type = "${var.disk_type}"
   package_size = "${var.package_size}"
+  artifacts_credentials = "${var.artifacts_credentials}"
+  artifacts_endpoint = "${var.artifacts_endpoint}"
 }
 
 resource "aws_launch_configuration" "barge" {
