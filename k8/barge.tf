@@ -4,9 +4,8 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
-/*
 module "bootstrap" {
-  source = "git::ssh://git@bitbucket.org/vgtf/argo-bootstrap-terraform.git?ref=v0.1.0"
+  source = "github.com/turnerlabs/argo-bootstrap-terraform?ref=v0.0.1"
   products = "${var.products}"
   conftag = "${var.conftag}"
   customer = "${var.customer}"
@@ -14,14 +13,13 @@ module "bootstrap" {
   disk_type = "${var.disk_type}"
   package_size = "${var.package_size}"
 }
-*/
 
 resource "aws_launch_configuration" "barge" {
   name_prefix = "${var.customer}-${var.barge_type}-${var.environment}-terraform-"
   image_id = "${var.ami}"
   instance_type = "${var.instance_type}" 
   security_groups = ["${split(",", var.security_groups)}"]
-#  user_data = "${module.bootstrap.user_data}"
+  user_data = "${module.bootstrap.user_data}"
   enable_monitoring = false
   lifecycle {
     create_before_destroy = true
