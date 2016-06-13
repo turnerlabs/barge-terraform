@@ -30,3 +30,5 @@ variable "asg_max_size" {}
 variable "asg_min_size" {}
 variable "asg_desired_capacity" {}
 variable "elb_lambda_update_arn" {}
+variable "artifacts_credentials" {}
+variable "artifacts_endpoint" {}
